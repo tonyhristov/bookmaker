@@ -68,10 +68,6 @@ function Data() {
                 </div>
             ))}
         </div>
-
-        // <div>
-        //     <p>maksakdjla</p>
-        // </div>
     );
 }
 
