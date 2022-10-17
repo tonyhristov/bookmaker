@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
+import Match from '../../containers/match';
 import Navbar from '../../containers/navbar';
 
 function MainPage() {
-    return <Navbar />;
+    return (
+        <div>
+            <Navbar />
+            <Match />
+        </div>
+    );
 }
 
 export default MainPage;
