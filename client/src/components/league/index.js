@@ -1,12 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Event from '../../components/event';
 import SortContext from '../../context';
-import { filterMatchesByDate, filterMatchesByEvent } from '../../utils/filterEvents';
 import { splitName } from '../../utils/helpers';
 
 function League(props) {
-    // const [showLeague, setShowLeague] = useState(false);
     const context = useContext(SortContext);
 
     const checkSort = () => {
@@ -21,7 +19,7 @@ function League(props) {
         const template = () => {
             return (
                 <div>
-                    <LeagueContainer categoryId={match[0].$.CategoryID} key={match[0].$.ID} isLive={match[0].$.IsLive}>
+                    <LeagueContainer categoryId={match[0].$.CategoryID} isLive={match[0].$.IsLive}>
                         <Text>{splitName(match[0].$.Name, 2)}</Text>
                         <ResultContainer>
                             <Bet>1</Bet>
@@ -31,7 +29,6 @@ function League(props) {
                     </LeagueContainer>
 
                     <Event props={match[0]} />
-                    {/* <Event props={match[0].Match} /> */}
                 </div>
             );
         };
@@ -52,29 +49,44 @@ function League(props) {
         }
     };
 
-    /*
-    
-    if (wayToSort === 'League') {
-            console.log('here');
-            const res = filterMatchesByEvent(context.events);
-            arr.push(res.events);
-            context.sortEvents(arr[0]);
-        } else {
-            console.log('not here');
-            const res = filterMatchesByDate(context.events);
-            console.log(res);
-            arr.push(res.events);
-            context.sortEvents(arr[0]);
-        }
+    const sortLeagues = (props) => {
+        if (checkSort()) {
+            const arr = [];
 
-        context.sorting(wayToSort);
-    */
+            for (let i = 0; i < props.length; i++) {
+                arr.push(props[i]);
+            }
+
+            const arrayHashmap = arr.reduce((obj, item) => {
+                if (obj[item[0].$.CategoryID]) {
+                    item[0].Match.forEach((element) => {
+                        obj[item[0].$.CategoryID][0].Match.push(element);
+                    });
+                } else {
+                    obj[item[0].$.CategoryID] = { ...item };
+                }
+
+                return obj;
+            }, {});
+            const objArray = Object.values(arrayHashmap);
+
+            const mergedArray = [];
+            objArray.map((x) => {
+                mergedArray.push([x[0]]);
+                return true;
+            });
+
+            return mergedArray;
+        } else {
+            return props;
+        }
+    };
 
     return (
         <div>
-            {props.props.map((match) => (
-                <div>{renderLeague(match)}</div>
-            ))}
+            {sortLeagues(props.props).map((match) => {
+                return <div>{renderLeague(match)}</div>;
+            })}
         </div>
     );
 }

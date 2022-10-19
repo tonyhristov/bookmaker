@@ -18,6 +18,12 @@ function App(props) {
         setEvents(EventsArr);
     };
 
+    if (sort === 'L') {
+        filterMatchesByEvent(events);
+    } else if (sort === 'T') {
+        filterMatchesByDate(events);
+    }
+
     useEffect(() => {
         getEvents();
     }, []);
@@ -26,23 +32,11 @@ function App(props) {
         setSort(...sort);
     };
 
-    // if (sort === 'L') {
-    //     arr.push(filterMatchesByEvent(events));
-    //     // setSortedMatches(filterMatchesByEvent(events));
-    // } else if (sort === 'T') {
-    //     arr.push(events);
-    //     // setSortedMatches(events);
-    // }
-
     const importEvents = (events) => {
         setEvents(events);
     };
 
-    const sortEvents = (events) => {
-        setEvents(events);
-    };
-
-    return <SortContext.Provider value={{ sort, sorting, events, importEvents, sortEvents }}>{props.children}</SortContext.Provider>;
+    return <SortContext.Provider value={{ sort, sorting, events, importEvents }}>{props.children}</SortContext.Provider>;
 }
 
 export default App;

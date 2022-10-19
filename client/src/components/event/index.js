@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Moment from 'moment';
+import LockImage from '../../images/lock-icon-29056.png';
 
 function Event(props) {
     const dateFormatter = (dateInput) => {
@@ -23,6 +24,8 @@ function Event(props) {
 
         if (oddsObj.one.$) {
             return <Odd>{oddsObj.one.$.Value}</Odd>;
+        } else {
+            return <Lock src={LockImage} alt='Suspended' />;
         }
     };
 
@@ -41,6 +44,8 @@ function Event(props) {
 
         if (oddsObj.equal.$) {
             return <Odd>{oddsObj.equal.$.Value}</Odd>;
+        } else {
+            return <Lock src={LockImage} alt='Suspended' />;
         }
     };
 
@@ -59,6 +64,8 @@ function Event(props) {
 
         if (oddsObj.two.$) {
             return <Odd>{oddsObj.two.$.Value}</Odd>;
+        } else {
+            return <Lock src={LockImage} alt='Suspended' />;
         }
     };
 
@@ -118,4 +125,14 @@ const Name = styled.p`
 const Odd = styled.h4`
     text-align: center;
     color: #1e8ad3;
+`;
+
+const Lock = styled.img`
+    width: 35px;
+    height: 25px;
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
 `;

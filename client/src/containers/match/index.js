@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import SortContext from '../../context';
-
 import League from '../../components/league';
 
 function Match() {
