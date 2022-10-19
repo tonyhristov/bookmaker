@@ -35,6 +35,7 @@ const Container = styled.div`
     margin-top: -21px;
     height: 80px;
     display: flex;
+    border-bottom: 3px white solid;
 `;
 
 const EsportText = styled.h2`

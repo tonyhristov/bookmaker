@@ -1,22 +1,81 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import Moment from 'moment';
 
 function Event(props) {
-    console.log(props);
+    const dateFormatter = (dateInput) => {
+        const date = Moment(dateInput).format('DD-MM-YYYY');
+        return date;
+    };
+
+    const oddSelectorOne = (bet) => {
+        const oddsObj = {
+            one: [],
+        };
+
+        bet.forEach(function (odds) {
+            odds.Odd.forEach((odd) => {
+                if (odd.$.Name == '1') {
+                    oddsObj.one = odd;
+                }
+            });
+        });
+
+        if (oddsObj.one.$) {
+            return <Odd>{oddsObj.one.$.Value}</Odd>;
+        }
+    };
+
+    const oddSelectorEqual = (bet) => {
+        const oddsObj = {
+            equal: [],
+        };
+
+        bet.forEach(function (odds) {
+            odds.Odd.forEach((odd) => {
+                if (odd.$.Name == 'X') {
+                    oddsObj.equal = odd;
+                }
+            });
+        });
+
+        if (oddsObj.equal.$) {
+            return <Odd>{oddsObj.equal.$.Value}</Odd>;
+        }
+    };
+
+    const oddSelectorTwo = (bet) => {
+        const oddsObj = {
+            two: [],
+        };
+
+        bet.forEach(function (odds) {
+            odds.Odd.forEach((odd) => {
+                if (odd.$.Name == '2') {
+                    oddsObj.two = odd;
+                }
+            });
+        });
+
+        if (oddsObj.two.$) {
+            return <Odd>{oddsObj.two.$.Value}</Odd>;
+        }
+    };
 
     return (
         <div>
-            {props.props.map((match) => (
-                <div id={match.$.ID}>
+            {props.props.Match.map((match) => (
+                <div key={match.$.ID}>
                     <EventContainer id='matches' matchType={match.$.MatchType}>
                         <MatchInfo id='match-info'>
-                            <Date> {match.$.StartDate}</Date>
+                            <Date>{dateFormatter(match.$.StartDate)}</Date>
+
                             <Name>{match.$.Name}</Name>
                         </MatchInfo>
                         <ResultContainer>
-                            <Odd>1</Odd>
-                            <Odd>X</Odd>
-                            <Odd>2</Odd>
+                            {oddSelectorOne(match.Bet)}
+                            {oddSelectorEqual(match.Bet)}
+                            {oddSelectorTwo(match.Bet)}
                         </ResultContainer>
                     </EventContainer>
                 </div>
@@ -60,31 +119,3 @@ const Odd = styled.h4`
     text-align: center;
     color: #1e8ad3;
 `;
-
-/*
-<div id='bet' style={{ background: 'blue' }}>
-                            <h3>bets</h3>
-                            <div style={{ border: 'dashed blue' }}>
-                                {match[0].Match[0].Bet.map((bet) => (
-                                    <div id='bet'>
-                                        <div id='bet-info'>
-                                            <h3>Bet Info</h3>
-                                            <p>ID: {bet.$.ID}</p>
-                                            <p>IsLive: {bet.$.IsLive}</p>
-                                            <p>Name: {bet.$.Name}</p>
-                                        </div>
-                                        <div>
-                                            <h3>Odds</h3>
-                                            {bet.Odd.map((odd) => (
-                                                <div style={{ border: 'dashed red', background: 'green' }}>
-                                                    <p>
-                                                        ID: {odd.$.ID} Name: {odd.$.Name} Value: {odd.$.Value}
-                                                    </p>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
- */

@@ -1,29 +1,14 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
+import SortContext from '../../context';
 
 import League from '../../components/league';
-import getData from '../../utils/getData';
 
 function Match() {
-    const [matches, setMatches] = useState([]);
-
-    const getMatches = async () => {
-        const matches = await getData();
-        const matchesArr = [];
-
-        matches.XmlSports.Sport[0].Event.forEach((element) => {
-            matchesArr.push([element]);
-        });
-
-        setMatches(matchesArr);
-    };
-
-    useEffect(() => {
-        getMatches();
-    }, []);
+    const context = useContext(SortContext);
 
     return (
         <div>
-            <League props={matches} />
+            <League props={context.events} />
         </div>
     );
 }
